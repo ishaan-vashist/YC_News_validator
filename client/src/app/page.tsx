@@ -50,7 +50,7 @@ export default function Dashboard() {
     setError(null);
     
     try {
-      const response = await fetch('http://localhost:3001/api/scrape', {
+      const response = await fetch('https://yc-news-validator.onrender.com/api/scrape', {
         method: 'POST',
       });
       
@@ -74,7 +74,7 @@ export default function Dashboard() {
 
   const loadExistingResults = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/results');
+      const response = await fetch('https://yc-news-validator.onrender.com/api/results');
       
       if (response.ok) {
         const result = await response.json();

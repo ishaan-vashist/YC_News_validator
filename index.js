@@ -6,8 +6,17 @@ async function sortHackerNewsArticles() {
   
   // launch browser using system Chrome (bypasses Playwright browser download)
   const browser = await chromium.launch({ 
-    headless: false,
-    channel: 'chrome' // Use system Chrome instead of Playwright's Chromium
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu'
+    ]
   });
   const context = await browser.newContext();
   const page = await context.newPage();
