@@ -3,7 +3,7 @@ const cors = require('cors');
 const { chromium } = require('playwright');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
@@ -62,8 +62,17 @@ async function performScraping() {
   console.log("🚀 Starting Hacker News Article Validation via API...\n");
   
   const browser = await chromium.launch({ 
-    headless: true, // Run headless for API
-    channel: 'chrome'
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-gpu'
+    ]
   });
   const context = await browser.newContext();
   const page = await context.newPage();
