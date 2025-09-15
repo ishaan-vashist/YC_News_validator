@@ -3,11 +3,13 @@ services:
     name: hacker-news-validator-api
     env: node
     plan: free
-    buildCommand: npm install && npx playwright install chromium
+    buildCommand: npm install && npx playwright install --with-deps chromium
     startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         sync: false
+      - key: PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD
+        value: "false"
     healthCheckPath: /health

@@ -20,7 +20,7 @@
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
     "deploy:check": "npm audit && npm outdated",
-    "postinstall": "npx playwright install chromium"
+    "postinstall": "npx playwright install --with-deps chromium || npx playwright install chromium"
   },
   "keywords": [
     "playwright",

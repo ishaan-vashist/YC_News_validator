@@ -149,22 +149,51 @@ async function performScraping() {
   
   let browser;
   try {
-    browser = await chromium.launch({ 
-      headless: true, // Always run headless for API
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--single-process', // Required for some cloud environments
-        '--disable-gpu',
-        '--disable-web-security',
-        '--disable-features=VizDisplayCompositor'
-      ],
-      timeout: 30000 // 30 second timeout for browser launch
-    });
+    // Try to launch browser, if it fails, attempt to install first
+    try {
+      browser = await chromium.launch({ 
+        headless: true, // Always run headless for API
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-accelerated-2d-canvas',
+          '--no-first-run',
+          '--no-zygote',
+          '--single-process', // Required for some cloud environments
+          '--disable-gpu',
+          '--disable-web-security',
+          '--disable-features=VizDisplayCompositor'
+        ],
+        timeout: 30000 // 30 second timeout for browser launch
+      });
+    } catch (launchError) {
+      console.log("Browser launch failed, attempting to install Chromium...");
+      const { execSync } = require('child_process');
+      try {
+        execSync('npx playwright install chromium', { stdio: 'inherit' });
+        console.log("Chromium installed, retrying browser launch...");
+        browser = await chromium.launch({ 
+          headless: true,
+          args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu',
+            '--disable-web-security',
+            '--disable-features=VizDisplayCompositor'
+          ],
+          timeout: 30000
+        });
+      } catch (installError) {
+        console.error("Failed to install Chromium:", installError);
+        throw launchError; // Throw original launch error
+      }
+    }
     
     const context = await browser.newContext();
     const page = await context.newPage();
