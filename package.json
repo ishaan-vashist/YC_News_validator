@@ -2,7 +2,7 @@
   "name": "qa_wolf_take_home",
   "version": "1.0.0",
   "description": "QA Wolf Take Home - Hacker News Article Validator with Web Dashboard",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
