@@ -1,0 +1,44 @@
+{
+  "name": "qa_wolf_take_home",
+  "version": "1.0.0",
+  "description": "QA Wolf Take Home - Hacker News Article Validator with Web Dashboard",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server.js",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "test": "node index.js",
+    "test:unit": "playwright test tests/unit --reporter=list",
+    "test:integration": "playwright test tests/integration --reporter=list",
+    "test:e2e": "playwright test tests/e2e --reporter=list",
+    "test:frontend": "playwright test tests/frontend --reporter=list",
+    "test:all": "playwright test --reporter=html",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "deploy:check": "npm audit && npm outdated",
+    "postinstall": "npx playwright install chromium"
+  },
+  "keywords": [
+    "playwright",
+    "web-scraping",
+    "hacker-news",
+    "qa-automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "playwright": "^1.39.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.39.0",
+    "@types/node": "^20.8.9",
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.10"
+  }
+}
